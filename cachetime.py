@@ -5,7 +5,7 @@
 import time
 import argparse
 import subprocess
-import makeplots
+# import makeplots
 
 #
 # handle input args
@@ -28,11 +28,20 @@ reps = 0
 raw_output = []
 for i in range(args.minLg2, args.maxLg2+1):
     if i < 12:
-        reps = 10000000000   # 10 B
+	if args.modify:
+        	reps = 1000000000   # 1 B
+	else:
+        	reps = 10000000000   # 10 B
     elif i < 16:
-        reps = 5000000000   # 5 B
+	if args.modify:
+        	reps = 100000000   # 100M
+	else:
+        	reps = 1000000000   # 1B
     else:
-        reps = 1000000000   # 1 B
+	if args.modify:
+        	reps = 100000000   # 10M 
+	else:
+        	reps = 1000000000   # 100M 
 
     if args.test:
         reps = 10000
@@ -88,4 +97,5 @@ for x in raw_output:
 fout.close()
 
 if (args.plot):
+    import makeplots
     makeplots.doPlot(raw_output, args.outnm)
